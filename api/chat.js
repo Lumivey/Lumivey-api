@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
         model: "gpt-4.1-mini",
@@ -42,18 +42,11 @@ export default async function handler(req, res) {
 
     const data = await openaiResponse.json();
 
-    if (!openaiResponse.ok) {
-      return res.status(500).json({
-        error: "OpenAI gaf een fout terug",
-        details: data
-      });
-    }
-
-    const reply =
-      data.output_text ||
-      "Ik kon nog geen goed antwoord maken. Kunt u het iets anders zeggen?";
-
-    return res.status(200).json({ reply });
+    return res.status(200).json({
+      status: openaiResponse.status,
+      ok: openaiResponse.ok,
+      raw: data
+    });
   } catch (error) {
     return res.status(500).json({
       error: "Er ging iets mis in Lumivey",
