@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lumivey API Test</title>
+</head>
+<body>
+  <h1>Lumivey API Test</h1>
+
+  <textarea id="message" rows="5" cols="60">Hallo, ik ben schilder en ik heb een website nodig.</textarea>
+  <br><br>
+  <button onclick="sendMessage()">Stuur naar Lumivey</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById("message").value;
+      const result = document.getElementById("result");
+
+      result.textContent = "Even rustig kijken...";
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        result.textContent = "Fout: " + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
