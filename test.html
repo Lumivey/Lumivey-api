@@ -21,7 +21,7 @@
       result.textContent = "Even rustig kijken...";
 
       try {
-        const response = await fetch("/api/chat", {
+        const response = await fetch("https://lumivey-api.vercel.app/api/chat", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
