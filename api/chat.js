@@ -82,7 +82,7 @@ module.exports = async function handler(req, res) {
   // Beide bestanden worden parallel geladen voor snelheid.
   // process.cwd() wijst naar de root van het Vercel-project.
   const brainPath          = path.join(process.cwd(), 'brain',  'brain-v0.1.md');
-  const discoveryAgentPath = path.join(process.cwd(), 'agents', 'discovery-agent-v0.2.md');
+  const discoveryAgentPath = path.join(process.cwd(), 'agents', 'discovery-agent-v0.3.md');
 
   let brainContent;
   let discoveryAgentContent;
@@ -122,15 +122,15 @@ ${brainContent}
 
 ---
 
-## DEEL 2 — Lumivey Discovery Agent v0.2
-## Bron: agents/discovery-agent-v0.2.md
+## DEEL 2 — Lumivey Discovery Agent v0.3
+## Bron: agents/discovery-agent-v0.3.md
 ## Rol: Uitvoerende gedragslaag — werkt binnen de grenzen van Brain v0.1
 
 ${discoveryAgentContent}
 
 ---
 
-Handel nu als Discovery Agent v0.2, binnen de grenzen van Brain v0.1.
+Handel nu als Discovery Agent v0.3, binnen de grenzen van Brain v0.1.
 `.trim();
 
   // ── OpenAI API aanroepen ──────────────────────────────────────
