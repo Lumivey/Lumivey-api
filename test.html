@@ -1,56 +1,40 @@
-export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lumivey API Test</title>
+</head>
+<body>
+  <h1>Lumivey API Test</h1>
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+  <textarea id="message" rows="5" cols="60">Hallo, ik ben schilder en ik heb een website nodig.</textarea>
+  <br><br>
+  <button onclick="sendMessage()">Stuur naar Lumivey</button>
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Alleen POST toegestaan" });
-  }
+  <pre id="result"></pre>
 
-  try {
-    const { message } = req.body || {};
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById("message").value;
+      const result = document.getElementById("result");
 
-    if (!message || typeof message !== "string") {
-      return res.status(400).json({ error: "Geen bericht ontvangen" });
-    }
+      result.textContent = "Even rustig kijken...";
 
-    const openaiResponse = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "gpt-4.1-mini",
-        input: [
-          {
-            role: "system",
-            content:
-              "Je bent Lumivey. Je helpt kleine ondernemers rustig en eenvoudig richting een passende website. Je stelt maximaal één vraag tegelijk. Je geeft korte antwoorden. Je luistert eerst. Je verkoopt niet. Je vraagt niet naar informatie die de ondernemer al gegeven heeft. Als iemand onzeker is over kosten, tijd of gedoe, erken je dat eerst."
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
           },
-          {
-            role: "user",
-            content: message
-          }
-        ]
-      })
-    });
+          body: JSON.stringify({ message })
+        });
 
-    const data = await openaiResponse.json();
-
-    return res.status(200).json({
-      status: openaiResponse.status,
-      ok: openaiResponse.ok,
-      raw: data
-    });
-  } catch (error) {
-    return res.status(500).json({
-      error: "Er ging iets mis in Lumivey",
-      details: error.message
-    });
-  }
-}
+        const data = await response.json();
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        result.textContent = "Fout: " + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
