@@ -82,7 +82,7 @@ module.exports = async function handler(req, res) {
   // Beide bestanden worden parallel geladen voor snelheid.
   // process.cwd() wijst naar de root van het Vercel-project.
   const brainPath          = path.join(process.cwd(), 'brain',  'brain-v0.1.md');
-  const discoveryAgentPath = path.join(process.cwd(), 'agents', 'discovery-agent-v0.3.md');
+  const discoveryAgentPath = path.join(process.cwd(), 'agents', 'discovery-agent-v0.4.md');
 
   let brainContent;
   let discoveryAgentContent;
