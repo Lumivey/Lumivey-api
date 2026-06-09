@@ -155,7 +155,7 @@ Handel nu als Discovery Agent v0.3, binnen de grenzen van Brain v0.1.
         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model:       'gpt-4o',
+        model:       'gpt-4o-mini',
         temperature: 0.3,
         messages: [
           // Stap 1: de volledige Brain + Agent als system prompt
