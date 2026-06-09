@@ -197,9 +197,5 @@ Handel nu als Discovery Agent v0.3, binnen de grenzen van Brain v0.1.
   // Stuur het antwoord terug in hetzelfde formaat als het binnenkomende verzoek:
   // - Formaat A (Squarespace): { "reply": "..." }         — simpel tekstveld
   // - Formaat B (array):       { "message": { ... } }     — volledig berichtobject
-  if (typeof body.message === 'string') {
-    return res.status(200).json({ reply: reply.content });
-  } else {
-    return res.status(200).json({ message: reply });
-  }
+return res.status(200).json({ reply: reply.content });
 };
