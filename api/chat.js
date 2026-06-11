@@ -6,7 +6,7 @@
 //    a. { "message": "..." }         — enkelvoudig tekstveld (Squarespace)
 //    b. { "messages": [...] }        — array met gesprekshistorie (toekomstig gebruik)
 // 2. Laadt brain/brain-v0.1.md als operationele kennislaag
-// 3. Laadt agents/discovery-agent-v0.2.md als uitvoerende gedragslaag
+// 3. Laadt agents/discovery-agent-v0.5.md als uitvoerende gedragslaag
 // 4. Voegt beide samen tot één system prompt
 // 5. Stuurt het bericht naar OpenAI gpt-4o
 // 6. Geeft het antwoord terug aan de bezoeker
@@ -82,7 +82,7 @@ module.exports = async function handler(req, res) {
   // Beide bestanden worden parallel geladen voor snelheid.
   // process.cwd() wijst naar de root van het Vercel-project.
   const brainPath          = path.join(process.cwd(), 'brain',  'brain-v0.1.md');
-  const discoveryAgentPath = path.join(process.cwd(), 'agents', 'discovery-agent-v0.4.md');
+  const discoveryAgentPath = path.join(process.cwd(), 'agents', 'discovery-agent-v0.5.md');
 
   let brainContent;
   let discoveryAgentContent;
@@ -102,7 +102,7 @@ module.exports = async function handler(req, res) {
 
   // ── System prompt samenstellen ───────────────────────────────
   // Deel 1: Lumivey Brain v0.1     — operationele kennislaag (leidend)
-  // Deel 2: Discovery Agent v0.2   — uitvoerende gedragslaag
+  // Deel 2: Discovery Agent v0.5   — uitvoerende gedragslaag
   //
   // De volgorde is bewust: Brain gaat voor Agent, conform de
   // Werkdocument → Brain → Afdelingen → Software hiërarchie (OB-4).
@@ -122,8 +122,8 @@ ${brainContent}
 
 ---
 
-## DEEL 2 — Lumivey Discovery Agent v0.3
-## Bron: agents/discovery-agent-v0.3.md
+## DEEL 2 — Lumivey Discovery Agent v0.5
+## Bron: agents/discovery-agent-v0.5.md
 ## Rol: Uitvoerende gedragslaag — werkt binnen de grenzen van Brain v0.1
 
 ${discoveryAgentContent}
