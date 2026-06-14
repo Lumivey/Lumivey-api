@@ -5,9 +5,13 @@
 // 1. brain/brain-v0.1.md
 // 2. agents/discovery-agent-v0.7.md
 // 3. docs/discovery-exit-preview-entry-v1.0.md
+// 4. docs/historische-spiegel-v1.0.md
+// 5. docs/preview-engine-v1.0.md
 
 const fs = require('fs/promises');
 const path = require('path');
+
+const CONTEXT_WINDOW_SIZE = 8;
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -43,7 +47,9 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    messagesForOpenAI = body.messages;
+    messagesForOpenAI = body.messages
+      .filter((m) => m.role !== 'system')
+      .slice(-CONTEXT_WINDOW_SIZE);
   } else {
     return res.status(400).json({
       error: 'Geen bericht ontvangen. Stuur { "message": "..." } of { "messages": [...] }.',
@@ -51,22 +57,50 @@ module.exports = async function handler(req, res) {
   }
 
   const brainPath = path.join(process.cwd(), 'brain', 'brain-v0.1.md');
-  const discoveryAgentPath = path.join(process.cwd(), 'agents', 'discovery-agent-v0.7.md');
+
+  const discoveryAgentPath = path.join(
+    process.cwd(),
+    'agents',
+    'discovery-agent-v0.7.md'
+  );
+
   const discoveryExitPath = path.join(
     process.cwd(),
     'docs',
     'discovery-exit-preview-entry-v1.0.md'
   );
 
+  const historischeSpiegelPath = path.join(
+    process.cwd(),
+    'docs',
+    'historische-spiegel-v1.0.md'
+  );
+
+  const previewEnginePath = path.join(
+    process.cwd(),
+    'docs',
+    'preview-engine-v1.0.md'
+  );
+
   let brainContent;
   let discoveryAgentContent;
   let discoveryExitContent;
+  let historischeSpiegelContent;
+  let previewEngineContent;
 
   try {
-    [brainContent, discoveryAgentContent, discoveryExitContent] = await Promise.all([
+    [
+      brainContent,
+      discoveryAgentContent,
+      discoveryExitContent,
+      historischeSpiegelContent,
+      previewEngineContent,
+    ] = await Promise.all([
       fs.readFile(brainPath, 'utf-8'),
       fs.readFile(discoveryAgentPath, 'utf-8'),
       fs.readFile(discoveryExitPath, 'utf-8'),
+      fs.readFile(historischeSpiegelPath, 'utf-8'),
+      fs.readFile(previewEnginePath, 'utf-8'),
     ]);
   } catch (err) {
     console.error('Fout bij laden kennisdocumenten:', err.message);
@@ -77,16 +111,32 @@ module.exports = async function handler(req, res) {
   }
 
   const systemPrompt = `
-# Lumivey — Operationele kennislaag, gedragslaag en overdrachtslaag
+# Lumivey — Operationele keten
 
-Je bent Lumivey. Je werkt uitsluitend binnen de grenzen van de onderstaande drie documenten.
+Je bent Lumivey.
+
+Je werkt uitsluitend binnen de grenzen van de onderstaande vijf documenten.
 Voeg geen nieuwe kennis toe. Herschrijf geen principes. Handel niet buiten deze documenten.
+
+Belangrijk:
+Gebruik interne termen nooit richting de bezoeker.
+Dus niet noemen: IST, SOLL, Discovery, Preview, Historische Spiegel, Veranderopdracht, Bewijsbeeld, Toekomstbeeld, Completeness Engine, LP-regels.
+Deze termen zijn alleen intern.
+
+Voor de bezoeker spreek je rustig, kort en concreet.
+Geen procesuitleg.
+Geen technische beloften.
+Geen belofte dat je een website analyseert als er nog geen URL is ontvangen.
+Vraag geen informatie die al gegeven is of redelijk afleidbaar is.
+
+De keten is intern:
+Discovery → Veranderopdracht → Historische Spiegel → Preview.
 
 ---
 
 ## DEEL 1 — Lumivey Brain v0.1
 ## Bron: brain/brain-v0.1.md
-## Rol: Operationele kennislaag — leidend boven alle andere documenten
+## Rol: Operationele kennislaag — leidend
 
 ${brainContent}
 
@@ -94,7 +144,7 @@ ${brainContent}
 
 ## DEEL 2 — Lumivey Discovery Agent v0.7
 ## Bron: agents/discovery-agent-v0.7.md
-## Rol: Uitvoerende gedragslaag — werkt binnen de grenzen van Brain v0.1
+## Rol: Gesprekslaag — begrijpt wat de bezoeker meebrengt
 
 ${discoveryAgentContent}
 
@@ -102,14 +152,39 @@ ${discoveryAgentContent}
 
 ## DEEL 3 — Discovery Exit & Preview Entry v1.0
 ## Bron: docs/discovery-exit-preview-entry-v1.0.md
-## Rol: Overdrachtslaag — bepaalt wanneer Discovery klaar is en Preview begint
+## Rol: Overdrachtslaag — bepaalt wanneer Discovery klaar is
 
 ${discoveryExitContent}
 
 ---
 
-Handel nu als Discovery Agent v0.7, binnen de grenzen van Brain v0.1.
-Gebruik Discovery Exit & Preview Entry v1.0 om te bepalen wanneer Discovery klaar is, wanneer een veranderopdracht compleet is, en wanneer de overgang naar Preview moet worden ingezet.
+## DEEL 4 — Historische Spiegel v1.0
+## Bron: docs/historische-spiegel-v1.0.md
+## Rol: Bewijslaag — begrijpt bestaande assets wanneer die beschikbaar zijn
+
+${historischeSpiegelContent}
+
+---
+
+## DEEL 5 — Preview Engine v1.0
+## Bron: docs/preview-engine-v1.0.md
+## Rol: Toonlaag — laat een eerste herkenbare richting ontstaan
+
+${previewEngineContent}
+
+---
+
+Handel nu als Lumivey binnen deze keten.
+
+Als de bezoeker een bestaande website noemt maar nog geen URL geeft:
+vraag rustig om de website.
+
+Als de bezoeker een URL geeft:
+erken ontvangst en geef aan dat die website het startpunt wordt voor de volgende stap.
+Doe geen alsof je de website al hebt bekeken, tenzij de inhoud daadwerkelijk in het gesprek staat.
+
+Als voldoende duidelijk is wat er moet veranderen:
+stop met doorvragen en maak de volgende stap concreet in gewone ondernemerstaal.
 `.trim();
 
   let openAIResponse;
