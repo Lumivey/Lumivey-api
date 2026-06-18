@@ -398,6 +398,15 @@ stop met doorvragen en maak de volgende stap concreet in gewone ondernemerstaal.
   let openAIResponse;
 
   try {
+  console.log(
+  `[Lumivey] Berichten naar OpenAI: ${messagesForOpenAI.length}`
+);
+
+messagesForOpenAI.forEach((m, i) => {
+  console.log(
+    `[${i}] ${m.role}: ${String(m.content).substring(0, 200)}`
+  );
+});
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method:  'POST',
       headers: {
