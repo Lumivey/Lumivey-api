@@ -5,8 +5,8 @@
 // 1. brain/brain-v0.1.md
 // 2. agents/discovery-agent-v0.8.md
 // 3. docs/discovery-exit-preview-entry-v1.0.md
-// 4. docs/historische-spiegel-v1.1.md   ← v1.1
-// 5. docs/preview-engine-v1.0.md
+// 4. docs/historische-spiegel-v1.2.md   ← v1.1
+// 5. docs/preview-engine-v1.1.md
 //
 // URL-detectie → Scraper → Website-bewijs in system prompt
 // Output-safety-check → rewrite bij interne termen → veilige bezoekerstekst
@@ -338,8 +338,8 @@ module.exports = async function handler(req, res) {
   const brainPath              = path.join(process.cwd(), 'brain',  'brain-v0.1.md');
   const discoveryAgentPath     = path.join(process.cwd(), 'agents', 'discovery-agent-v0.8.md');
   const discoveryExitPath      = path.join(process.cwd(), 'docs',   'discovery-exit-preview-entry-v1.0.md');
-  const historischeSpiegelPath = path.join(process.cwd(), 'docs',   'historische-spiegel-v1.1.md');
-  const previewEnginePath      = path.join(process.cwd(), 'docs',   'preview-engine-v1.0.md');
+  const historischeSpiegelPath = path.join(process.cwd(), 'docs',   'historische-spiegel-v1.2.md');
+  const previewEnginePath      = path.join(process.cwd(), 'docs',   'preview-engine-v1.1.md');
 
   let brainContent, discoveryAgentContent, discoveryExitContent,
       historischeSpiegelContent, previewEngineContent;
@@ -430,14 +430,14 @@ ${discoveryExitContent}
 
 ---
 
-## DEEL 4 — Historische Spiegel v1.1
+## DEEL 4 — Historische Spiegel v1.2
 ## Rol: Bewijslaag — gebruik intern, toon nooit categorielabels aan bezoeker
 
 ${historischeSpiegelContent}
 
 ---
 
-## DEEL 5 — Preview Engine v1.0
+## DEEL 5 — Preview Engine v1.1
 ## Rol: Toonlaag
 
 ${previewEngineContent}
