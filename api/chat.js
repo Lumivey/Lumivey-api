@@ -534,6 +534,13 @@ stop met doorvragen en maak de volgende stap concreet in gewone ondernemerstaal.
 
   let finalReply = rawReply;
 
+console.log('====================');
+console.log('RAW REPLY START');
+console.log(rawReply);
+console.log('RAW REPLY END');
+console.log('requiresRewrite =', requiresRewrite(rawReply));
+console.log('====================');
+  
   if (requiresRewrite(rawReply)) {
     console.log('[Lumivey] Output-risico gevonden — rewrite gestart');
 
