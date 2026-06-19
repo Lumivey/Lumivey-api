@@ -2,7 +2,7 @@
 // Vercel serverless function (Node.js — CommonJS)
 //
 // Laadt:
-// 1. brain/brain-v0.1.md
+// 1. brain/brain-v0.2.md
 // 2. agents/discovery-agent-v0.9.md
 // 3. docs/discovery-exit-preview-entry-v1.0.md
 // 4. docs/historische-spiegel-v1.2.md   ← v1.1
@@ -409,7 +409,7 @@ Noem deze keten nooit bij naam richting de bezoeker.
 
 ---
 
-## DEEL 1 — Lumivey Brain v0.1
+## DEEL 1 — Lumivey Brain v0.2
 ## Rol: Operationele kennislaag — leidend
 
 ${brainContent}
