@@ -2,11 +2,11 @@
 // Vercel serverless function (Node.js — CommonJS)
 //
 // Laadt:
-// 1. brain/brain-v0.2.md
-// 2. agents/discovery-agent-v0.9.md
-// 3. docs/discovery-exit-preview-entry-v1.0.md
-// 4. docs/historische-spiegel-v1.2.md
-// 5. docs/preview-engine-v1.1.md
+// 1. api/knowledge/brain/brain-v0.2.md
+// 2. api/knowledge/agents/discovery-agent-v0.9.md
+// 3. api/knowledge/docs/discovery-exit-preview-entry-v1.0.md
+// 4. api/knowledge/docs/historische-spiegel-v1.2.md
+// 5. api/knowledge/docs/preview-engine-v1.1.md
 //
 // URL-detectie → Scraper → Website-bewijs in system prompt
 // Output-safety-check → rewrite bij interne termen, LP28-achtige formuleringen
@@ -22,13 +22,6 @@ const path = require('path');
 const CONTEXT_WINDOW_SIZE = 8;
 const SCRAPER_TIMEOUT_MS = 7000;
 
-const KNOWLEDGE_FILES = {
-  brain: ['brain', 'brain-v0.2.md'],
-  discoveryAgent: ['agents', 'discovery-agent-v0.9.md'],
-  discoveryExit: ['docs', 'discovery-exit-preview-entry-v1.0.md'],
-  historischeSpiegel: ['docs', 'historische-spiegel-v1.2.md'],
-  previewEngine: ['docs', 'preview-engine-v1.1.md'],
-};
 
 // ── Veilige fallback wanneer rewrite ook faalt ────────────────────────────────
 
@@ -349,17 +342,21 @@ module.exports = async function handler(req, res) {
 
   // ── Kennisdocumenten laden ───────────────────────────────────────────────
 
-  const brainPath = path.join(process.cwd(), ...KNOWLEDGE_FILES.brain);
-  const discoveryAgentPath = path.join(process.cwd(), ...KNOWLEDGE_FILES.discoveryAgent);
-  const discoveryExitPath = path.join(process.cwd(), ...KNOWLEDGE_FILES.discoveryExit);
-  const historischeSpiegelPath = path.join(process.cwd(), ...KNOWLEDGE_FILES.historischeSpiegel);
-  const previewEnginePath = path.join(process.cwd(), ...KNOWLEDGE_FILES.previewEngine);
+  const brainPath = path.join(__dirname, 'knowledge', 'brain', 'brain-v0.2.md');
+  const discoveryAgentPath = path.join(__dirname, 'knowledge', 'agents', 'discovery-agent-v0.9.md');
+  const discoveryExitPath = path.join(__dirname, 'knowledge', 'docs', 'discovery-exit-preview-entry-v1.0.md');
+  const historischeSpiegelPath = path.join(__dirname, 'knowledge', 'docs', 'historische-spiegel-v1.2.md');
+  const previewEnginePath = path.join(__dirname, 'knowledge', 'docs', 'preview-engine-v1.1.md');
 
   let brainContent;
   let discoveryAgentContent;
   let discoveryExitContent;
   let historischeSpiegelContent;
   let previewEngineContent;
+
+  console.log('[Lumivey] __dirname:', __dirname);
+  console.log('[Lumivey] Brain pad:', brainPath);
+  console.log('[Lumivey] Discovery Agent pad:', discoveryAgentPath);
 
   try {
     [
