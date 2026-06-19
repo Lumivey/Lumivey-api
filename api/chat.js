@@ -3,7 +3,7 @@
 //
 // Laadt:
 // 1. brain/brain-v0.1.md
-// 2. agents/discovery-agent-v0.8.md
+// 2. agents/discovery-agent-v0.9.md
 // 3. docs/discovery-exit-preview-entry-v1.0.md
 // 4. docs/historische-spiegel-v1.2.md   ← v1.1
 // 5. docs/preview-engine-v1.1.md
@@ -336,7 +336,7 @@ module.exports = async function handler(req, res) {
   // ── Kennisdocumenten laden ───────────────────────────────────────────────
 
   const brainPath              = path.join(process.cwd(), 'brain',  'brain-v0.1.md');
-  const discoveryAgentPath     = path.join(process.cwd(), 'agents', 'discovery-agent-v0.8.md');
+  const discoveryAgentPath     = path.join(process.cwd(), 'agents', 'discovery-agent-v0.9.md');
   const discoveryExitPath      = path.join(process.cwd(), 'docs',   'discovery-exit-preview-entry-v1.0.md');
   const historischeSpiegelPath = path.join(process.cwd(), 'docs',   'historische-spiegel-v1.2.md');
   const previewEnginePath      = path.join(process.cwd(), 'docs',   'preview-engine-v1.1.md');
@@ -416,7 +416,7 @@ ${brainContent}
 
 ---
 
-## DEEL 2 — Lumivey Discovery Agent v0.8
+## DEEL 2 — Lumivey Discovery Agent v0.9
 ## Rol: Gesprekslaag
 
 ${discoveryAgentContent}
