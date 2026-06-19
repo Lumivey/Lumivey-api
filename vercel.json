@@ -1,11 +1,7 @@
 {
   "functions": {
     "api/chat.js": {
-      "includeFiles": [
-        "brain/**",
-        "agents/**",
-        "docs/**"
-      ]
+      "includeFiles": "brain/**,agents/**,docs/**"
     }
   }
 }
